@@ -89,7 +89,15 @@ const useProxyPer = {
 
 // Main function
 const useProxy = async (target, data) => {
-    useProxyPer[target.constructor.name](target, data);
+	let constructorName = target.constructor.name
+
+	if(constructorName === "CdpPage") {
+		constructorName = "CDPPage"
+	} else if(constructorName === "CdpHTTPRequest") {
+		constructorName = "HTTPRequest"
+	}
+
+	await useProxyPer[constructorName](target, data);
 };
 
 module.exports = useProxy;
